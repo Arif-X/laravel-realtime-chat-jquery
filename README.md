@@ -27,7 +27,7 @@ if(empty($check)){
 }
 ```
 
-Tambahkan kode berikut pada function "authenticated" di file "AuthenticatesUsers"
+Tambahkan kode berikut pada function "registered" di file "RegistersUsers"
 ```
 LoginDetail::create(
     [
