@@ -13,7 +13,7 @@ if(empty($check)){
         [
             'user_id' => $user->id,
             'last_activity' => now(),
-            'is_type' => 0
+            'is_type' => 0,
         ]
     );
 } else {
@@ -21,7 +21,7 @@ if(empty($check)){
         [
             'user_id' => $user->id,
             'last_activity' => now(),
-            'is_type' => 0
+            'is_type' => 0,
         ]
     );
 }
@@ -33,7 +33,7 @@ LoginDetail::create(
     [
         'user_id' => $user->id,
         'last_activity' => now(),
-        'is_type' => 0
+        'is_type' => 0,
     ]
 );
 ```
