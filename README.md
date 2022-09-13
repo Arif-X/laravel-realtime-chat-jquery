@@ -33,7 +33,7 @@ LoginDetail::create(
     [
         'user_id' => $user->id,
         'last_activity' => now(),
-        'istype' => 0
+        'is_type' => 0
     ]
 );
 ```
