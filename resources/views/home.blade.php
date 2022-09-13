@@ -66,7 +66,6 @@
             update_last_activity();
             fetch_user();
             update_chat_history_data();
-            fetch_group_chat_history();
         }, 5000);
 
         function fetch_user(){
@@ -97,8 +96,7 @@
             modal_content += '<div class="form-group">';
             modal_content += '<textarea name="chat_message_'+to_user_id+'" id="chat_message_'+to_user_id+'" class="form-control chat_message"></textarea>';
             modal_content += '</div><div class="form-group" align="right">';
-            modal_content+= '<button type="button" name="send_chat" id="'+to_user_id+'" class="btn btn-info send_chat">Send</button></div></div>';
-            console.log(to_user_id)
+            modal_content+= '<span class="btn btn-primary btn-file">Photo<input type="file" name="uploadFile" id="uploadFile" accept=".jpg, .png" /></span> <button type="button" name="send_chat" id="'+to_user_id+'" class="btn btn-info send_chat">Send</button></div></div>';
             $('#user_model_details').html(modal_content);
         }
 
@@ -141,7 +139,6 @@
                 data:{to_user_id:to_user_id},
                 success:function(data){
                     $('#chat_history_'+to_user_id).html(data);
-                    console.log(data)
                 }
             })
         }
@@ -180,6 +177,27 @@
 
                 }
             })
+        });
+
+        $(document ).on('change','#uploadFile' , function(e){
+            e.preventDefault();
+            let formData = new FormData();
+            var imageFile = $('#uploadFile')[0].files[0];
+            var to_user_id = $('.send_chat').attr('id');
+            formData.append('imageFile', imageFile);
+            formData.append('to_user_id', to_user_id);
+
+            $.ajax({
+                data: formData,
+                url: "{{ route('upload') }}",
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $('#uploadFile').val(null);
+                }
+            });
         });
     });  
 </script>

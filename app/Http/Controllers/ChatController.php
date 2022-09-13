@@ -12,7 +12,7 @@ use App\Models\LoginDetail;
 class ChatController extends Controller
 {
     // Chat service start
-    
+
 
     // Chat service end
 
@@ -82,6 +82,25 @@ class ChatController extends Controller
         return LoginDetail::where('user_id', Auth::user()->id)->update([
             'last_activity' => now()
         ]);
+    }
+
+    public function upload(Request $request){
+        $file = $request->file('imageFile');
+        $fileName = rand().$file->getClientOriginalName() . '.' . $file->getClientOriginalExtension();
+        if($file->move(public_path('images/'),$fileName)){
+            $insert = ChatMessage::insert([
+                'to_user_id' => $request->to_user_id,
+                'from_user_id' => Auth::user()->id,
+                'chat_message' => '<p><img src="/images/'.$fileName.'" class="img-thumbnail" width="200" height="160" /></p><br />',
+                'timestamp' => now(),
+                'status' => 1
+            ]);
+
+            if($insert){
+                return ChatService::fetch_user_chat_history(Auth::user()->id, $request->to_user_id);
+            }
+        }
+
     }
 
     // Chat control end
